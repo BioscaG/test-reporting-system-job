@@ -7,6 +7,7 @@ import sys
 from .parser import load_sessions_from_json
 from .aggregator import aggregate_overall
 from .report import write_summary_json, write_per_dut_csv, write_html_dashboard
+from .sqlite_exporter import export_to_sqlite
 
 
 def main() -> int:
@@ -30,6 +31,10 @@ def main() -> int:
         action="store_true",
         help="If set, also generate a simple HTML dashboard.",
     )
+    parser.add_argument(
+        "--sqlite-db",
+        help="If set, export data to a SQLite database at the given path.",
+    )
     args = parser.parse_args()
 
     input_path = Path(args.input)
@@ -48,6 +53,15 @@ def main() -> int:
 
     if args.html:
         write_html_dashboard(summary, extras, out_dir / "dashboard.html")
+
+    if args.sqlite_db:
+        db_path = (
+            out_dir / args.sqlite_db
+            if not Path(args.sqlite_db).is_absolute()
+            else Path(args.sqlite_db)
+        )
+        export_to_sqlite(sessions, summary, extras, db_path)
+        print(f"SQLite database written to: {db_path.resolve()}")
 
     print(f"Reports generated in: {out_dir.resolve()}")
     return 0
