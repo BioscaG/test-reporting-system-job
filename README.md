@@ -43,6 +43,21 @@ The input JSON is expected to follow this structure:
 ]
 ```
 
+## Installation
+
+Requirements:
+- Python 3.10+
+- (Optional) mypy for static type checking
+
+Setup:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+
 ## Execution
 
 From the project root, you can run:
@@ -64,19 +79,7 @@ After running the command, the `out/` directory will contain:
 - `dashboard.html` *(if `--html` is used)*  
 - `results.db` *(if `--sqlite-db` is used)*
 
-## Installation
 
-Requirements:
-- Python 3.10+
-- (Optional) mypy for static type checking
-
-Setup:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate        # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
 
 ## Grafana integration (SQLite)
 
