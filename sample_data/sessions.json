@@ -1,0 +1,28 @@
+[
+  {
+    "dut": "DUT_A",
+    "session_id": "session_001",
+    "tests": [
+      {"name": "test_login", "status": "passed", "duration": 1.2},
+      {"name": "test_signup", "status": "failed", "duration": 2.5},
+      {"name": "test_logout", "status": "skipped", "duration": 0.8}
+    ]
+  },
+  {
+    "dut": "DUT_B",
+    "session_id": "session_002",
+    "tests": [
+      {"name": "test_login", "status": "passed", "duration": 1.0},
+      {"name": "test_signup", "status": "passed", "duration": 2.2}
+    ]
+  },
+  {
+    "dut": "DUT_C",
+    "session_id": "session_003",
+    "tests": [
+      {"name": "test_login", "status": "failed", "duration": 1.6},
+      {"name": "test_logout", "status": "passed", "duration": 0.9},
+      {"name": "test_profile", "status": "skipped", "duration": 0.0}
+    ]
+  }
+]
