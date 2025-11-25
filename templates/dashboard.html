@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Test Summary Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f2f2f2;
+    }
+    .kpi {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .kpi .box {
+      padding: 0.75rem 1rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      min-width: 180px;
+    }
+    h1, h2 {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Aggregated Test Summary</h1>
+  <div class="kpi">
+    <div class="box"><strong>Total tests:</strong> {total_tests}</div>
+    <div class="box"><strong>Overall pass rate:</strong> {overall_pass_rate:.1f}%</div>
+    <div class="box"><strong>Total duration (s):</strong> {total_duration:.2f}</div>
+    <div class="box"><strong>Unique test names:</strong> {unique_test_names}</div>
+  </div>
+
+  <h2>Per-DUT Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>DUT</th>
+        <th>Total</th>
+        <th>Passed</th>
+        <th>Failed</th>
+        <th>Skipped</th>
+        <th>Total duration (s)</th>
+        <th>Avg duration (s)</th>
+        <th>Pass rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      {per_dut_rows}
+    </tbody>
+  </table>
+
+  <h2>Slowest Tests</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Test name</th>
+        <th>DUT</th>
+        <th>Session</th>
+        <th>Status</th>
+        <th>Duration (s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {slowest_rows}
+    </tbody>
+  </table>
+</body>
+</html>

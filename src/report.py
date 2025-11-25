@@ -83,3 +83,66 @@ def write_per_dut_csv(
                     "pass_rate": f"{d.pass_rate:.2f}",
                 }
             )
+
+
+def _load_html_template(template_path: Path) -> str:
+    """
+    Load the HTML template from a file.
+    """
+    return template_path.read_text(encoding="utf-8")
+
+
+def write_html_dashboard(
+    summary: OverallSummary,
+    extras: ExtraMetrics,
+    path: str | Path,
+    template_path: Path | None = None,
+) -> None:
+    """
+    Generate a small static HTML dashboard for stakeholders.
+
+    The HTML structure is stored in templates/dashboard.html and uses
+    basic str.format() placeholders.
+    """
+    if template_path is None:
+        # src/report.py -> src -> project root
+        root_dir = Path(__file__).resolve().parents[1]
+        template_path = root_dir / "templates" / "dashboard.html"
+
+    template = _load_html_template(template_path)
+
+    per_dut_rows = "".join(
+        f"<tr>"
+        f"<td>{d.dut}</td>"
+        f"<td>{d.total}</td>"
+        f"<td>{d.passed}</td>"
+        f"<td>{d.failed}</td>"
+        f"<td>{d.skipped}</td>"
+        f"<td>{d.total_duration:.2f}</td>"
+        f"<td>{d.avg_duration:.2f}</td>"
+        f"<td>{d.pass_rate:.1f}%</td>"
+        f"</tr>"
+        for d in summary.per_dut
+    )
+
+    slowest_rows = "".join(
+        f"<tr>"
+        f"<td>{t['name']}</td>"
+        f"<td>{t['dut']}</td>"
+        f"<td>{t['session_id']}</td>"
+        f"<td>{t['status']}</td>"
+        f"<td>{t['duration']:.2f}</td>"
+        f"</tr>"
+        for t in extras.slowest_tests
+    )
+
+    html = template.format(
+        total_tests=summary.total_tests,
+        overall_pass_rate=summary.overall_pass_rate,
+        total_duration=summary.total_duration,
+        unique_test_names=extras.unique_test_names,
+        per_dut_rows=per_dut_rows,
+        slowest_rows=slowest_rows,
+    )
+
+    Path(path).write_text(html, encoding="utf-8")
