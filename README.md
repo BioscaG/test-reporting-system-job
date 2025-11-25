@@ -22,7 +22,7 @@ the results, and produces:
 From the project root, you can run:
 
 ```bash
-python -m src.main --input sample_data.json --out-dir out --html --sqlite-db results.db
+python -m src.main --input sample_data/sessions.json --out-dir out --html --sqlite-db results.db
 ```
 
 
